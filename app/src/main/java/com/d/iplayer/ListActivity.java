@@ -15,7 +15,6 @@ import com.d.commenplayer.adapter.AdapterPlayer;
 import com.d.commenplayer.listener.IPlayerListener;
 import com.d.commenplayer.listener.OnNetListener;
 import com.d.commenplayer.ui.ControlLayout;
-import com.d.commenplayer.util.MLog;
 import com.d.commenplayer.util.MUtil;
 import com.d.iplayer.adapter.PlayerAdapter;
 import com.d.iplayer.model.PlayerModel;
@@ -27,11 +26,10 @@ import com.d.lib.xrv.adapter.CommonHolder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.videolan.libvlc.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class ListActivity extends Activity {
     private Context context;
@@ -75,12 +73,12 @@ public class ListActivity extends Activity {
             }
 
             @Override
-            public void onCompletion(IMediaPlayer mp) {
+            public void onCompletion(MediaPlayer mp) {
                 player.getControl().setState(ControlLayout.STATE_COMPLETION);
             }
 
             @Override
-            public void onPrepared(IMediaPlayer mp) {
+            public void onPrepared(MediaPlayer mp) {
                 if (!ignoreNet && NetConstans.NET_STATUS == NetConstans.CONNECTED_MOBILE) {
                     player.pause();
                     player.getControl().setState(ControlLayout.STATE_MOBILE_NET);
@@ -90,30 +88,27 @@ public class ListActivity extends Activity {
             }
 
             @Override
-            public boolean onError(IMediaPlayer mp, int what, int extra) {
+            public boolean onError(MediaPlayer mp, int what, int extra) {
                 player.getControl().setState(ControlLayout.STATE_ERROR);
                 return false;
             }
 
             @Override
-            public boolean onInfo(IMediaPlayer mp, int what, int extra) {
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 return false;
             }
 
             @Override
-            public void onVideoSizeChanged(IMediaPlayer mp, int width, int height, int sarNum, int sarDen) {
+            public void onVideoSizeChanged(MediaPlayer mp, int width, int height, int sarNum, int sarDen) {
 
             }
         });
     }
 
-    private List<PlayerModel> getDatas() {
-        int[] urls = new int[]{R.string.url1, R.string.url2, R.string.url3, R.string.url4,
-                R.string.url5, R.string.url6, R.string.url7, R.string.url8,};
+    public List<PlayerModel> getDatas() {
         ArrayList<PlayerModel> datas = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             PlayerModel model = new PlayerModel();
-            model.url = getResources().getString(urls[i % urls.length]);
             datas.add(model);
         }
         return datas;
@@ -161,10 +156,7 @@ public class ListActivity extends Activity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetEvent(NetEvent event) {
-        if (event == null || isFinishing()) {
-            return;
-        }
-        MLog.d("dsiner: Net_" + event.status);
+
     }
 
     @Override

@@ -2,32 +2,14 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-CommenPlayer 是一个适用于 Android 平台的视频播放器，基于ijkplayer、Android MediaPlayer、ExoPlayer / vlc
-
-## Branch
-- [master](https://github.com/Dsiner/CommenPlayer)  - 开发分支，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
-- [ijk-default](https://github.com/Dsiner/CommenPlayer/tree/default)  - 发布分支，支持格式最全，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
-- [ijk-lite](https://github.com/Dsiner/CommenPlayer/tree/lite)  - 发布分支，lite，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
-- [vlc](https://github.com/Dsiner/CommenPlayer/tree/vlc)  - 发布分支，基于 `vlc` , 测试阶段
-
 ## Demo
 <p>
-   <img src="https://github.com/Dsiner/Resouce/blob/master/lib/CommenPlayer/commenplayer.gif" width="320" alt="Screenshot"/>
+   <img src="https://github.com/Dsiner/CommenPlayer/blob/master/screenshot/screenshot.gif" width="320" alt="Screenshot"/>
 </p>
-
-## Features
-- [x] 支持本地和网络视频播放
-- [x] 支持 M3U8、RTMP、RTSP、UDP 协议的直播流媒体播放
-- [x] 支持常见的音视频文件播放（MP4、mp3、flv等）
-- [x] 支持播放控制，进度显示
-- [x] 支持手势滑动调节播放进度、亮度、声音
-- [x] 支持画面尺寸切换（16：9，4：3，自适应，撑满等）
-- [x] 支持横竖屏切换、全屏模式、列表播放、列表播放/全屏模式切换
-- [x] 支持全屏沉浸式模式
 
 ## Usage
 ```xml
-    <com.d.commenplayer.CommenPlayer
+    <com.d.commenplayer.commen.CommenPlayer
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="180dp" />
@@ -35,64 +17,58 @@ CommenPlayer 是一个适用于 Android 平台的视频播放器，基于ijkplay
 
 #### Operation
 ```java
+        //设置是否是直播模式
         player.setLive(false);
-        player.setOnNetListener(new OnNetListener() {
+        //setListener
+        player.setListenNetChange(true).setNetChangeListener(new OnNetChangeListener() {
             @Override
-            public void onIgnoreMobileNet() {
-                ignoreNet = true;
-            }
-        }).setOnPlayerListener(new IPlayerListener() {
+            ...
+        }).setOnPlayListener(new IPlayListener() {
             @Override
-            public void onLoading() {
-                player.getControl().setState(ControlLayout.STATE_LOADING);
-            }
-
-            @Override
-            public void onCompletion(IMediaPlayer mp) {
-                player.getControl().setState(ControlLayout.STATE_COMPLETION);
-            }
-
-            @Override
-            public void onPrepared(IMediaPlayer mp) {
-                if (!ignoreNet && NetConstans.NET_STATUS == NetConstans.CONNECTED_MOBILE) {
-                    player.pause();
-                    player.getControl().setState(ControlLayout.STATE_MOBILE_NET);
-                } else {
-                    player.getControl().setState(ControlLayout.STATE_PREPARED);
-                }
-            }
-
-            @Override
-            public boolean onError(IMediaPlayer mp, int what, int extra) {
-                player.getControl().setState(ControlLayout.STATE_ERROR);
-                return false;
-            }
-
-            @Override
-            public boolean onInfo(IMediaPlayer mp, int what, int extra) {
-                return false;
-            }
-
-            @Override
-            public void onVideoSizeChanged(IMediaPlayer mp, int width, int height, int sarNum, int sarDen) {
-
-            }
+            ...
         });
-        player.play(url);
+        //播放
+        player.play(url1);
 ```
 
 #### Activity Lifecycle
 ```java
-    Override onResume()、onPause()、onConfigurationChanged()、onBackPressed()、onDestroy()
+    @Override
+    protected void onResume() {
+        player.onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        player.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        player.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (player.onBackPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        player.onDestroy();
+        super.onDestroy();
+    }
 ```
+
 
 More usage see [Demo](app/src/main/java/com/d/iplayer/MainActivity.java)
 
-## Thanks
-- [ijkplayer](https://github.com/Bilibili/ijkplayer)  -Video player based on ffplay
-- [vlc-android-sdk](https://github.com/mrmaffen/vlc-android-sdk)  -Unofficial VLC Android SDK pushed to JCenter. Supported ABIs are armeabi-v7a, arm64-v8a, x86 and x86_64.
-- [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
-- [NiceVieoPlayer](https://github.com/xiaoyanger0825/NiceVieoPlayer)
 
 ## Licence
 
