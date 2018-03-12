@@ -2,12 +2,13 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-CommenPlayer 是一个适用于 Android 平台的视频播放器，基于ijkplayer、vlc、Android MediaPlayer、ExoPlayer
+CommenPlayer 是一个适用于 Android 平台的视频播放器，基于ijkplayer、Android MediaPlayer、ExoPlayer / vlc
 
 ## Branch
-- [master](https://github.com/Dsiner/CommenPlayer)  - 支持格式最全，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
-- [lite](https://github.com/Dsiner/CommenPlayer/tree/lite)  - lite，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
-- [vlc](https://github.com/Dsiner/CommenPlayer/tree/vlc)  - 基于 `vlc` , 测试阶段
+- [master](https://github.com/Dsiner/CommenPlayer)  - 开发分支，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
+- [ijk-default](https://github.com/Dsiner/CommenPlayer/tree/default)  - 发布分支，支持格式最全，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
+- [ijk-lite](https://github.com/Dsiner/CommenPlayer/tree/lite)  - 发布分支，lite，基于 `ijkplayer` ，支持ijkplayer、Android MediaPlayer、ExoPlayer切换
+- [vlc](https://github.com/Dsiner/CommenPlayer/tree/vlc)  - 发布分支，基于 `vlc` , 测试阶段
 
 ## Demo
 <p>
